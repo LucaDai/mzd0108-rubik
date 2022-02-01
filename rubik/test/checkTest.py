@@ -67,8 +67,21 @@ class CheckTest(TestCase):
 #    test 913:    Edge case: one edge has contradictory color: 
 #                 swap position 20 and 44 for solved cube
 #                 result: {'status': 'error: xxx'}
-#    test 914:    Corner case: one corner has contradictory color:
+#    test 914:    Edge case 2: one edge has contradictory color: 
+#                 swap position 13 and 48 for solved cube
+#                 result: {'status': 'error: xxx'}
+#    test 915:    Edge case: a edge has two side in same color:
+#                 switch 6 and 44 for solved cube
+#                 result: {'status': 'error: xxx'}
+#    test 916:    Corner case: one corner has contradictory color:
 #                 swap position 19 and 43 for solved cube
+#                 result: {'status': 'error: xxx'}
+#    test 917:    Corner case: one corner has contradictory color:
+#                 corner for unsolved cube: 27, 34, 52 is y, r, b 
+#                 opposite of b is g, therefore switch y to a corner g
+#                 result: {'status': 'error: xxx'}
+#    test 918:    Corner case: a corner has two side in same color:
+#                 switch 30,o and 7,b for solved cube
 #                 result: {'status': 'error: xxx'}
 
     #Happy path tests:
@@ -200,12 +213,43 @@ class CheckTest(TestCase):
         self.assertIn('status', result)
         status = result.get('status', None)
         self.assertEqual(status, 'error: xxx')
+    def test_check_914_ShouldReturnXxxForContradictoryEdge2(self): 
+        parm = {'op':'check',
+                'cube':'bbbbbbbbbrrrwrrrrrgggggggggoooooooooyyyyyyyyywwrwwwwww'}        
+        result = check._check(parm)
+        self.assertIn('status', result)
+        status = result.get('status', None)
+        self.assertEqual(status, 'error: xxx')
         
-    def test_check_914_ShouldReturnXxxForContradictoryCorner(self): 
+    def test_check_915_ShouldReturnXxxForSameColorEdge(self): 
+        parm = {'op':'check',
+                'cube':'bbbbbybbbrrrrrrrrrgggggggggoooooooooyyyyyyybywwwwwwwww'}                       
+        result = check._check(parm)
+        self.assertIn('status', result)
+        status = result.get('status', None)
+        self.assertEqual(status, 'error: xxx') 
+      
+    def test_check_916_ShouldReturnXxxForContradictoryCorner(self): 
         parm = {'op':'check',
                 'cube':'bbbbbbbbbrrrrrrrrryggggggggoooooooooyyyyyygyywwwwwwwww'}        
         result = check._check(parm)
         self.assertIn('status', result)
         status = result.get('status', None)
         self.assertEqual(status, 'error: xxx')
-
+        
+    def test_check_917_ShouldReturnXxxForContradictoryCorner2(self): 
+        parm = {'op':'check',
+                'cube':'yobybgggwwbgwrrrobwbwggyowgbbrrogrooorowyyybryogywwbry'}       
+        result = check._check(parm)
+        self.assertIn('status', result)
+        status = result.get('status', None)
+        self.assertEqual(status, 'error: xxx')
+        
+    def test_check_918_ShouldReturnXxxForSameColorCorner(self): 
+        parm = {'op':'check',
+                'cube':'bbbbbbobbrrrrrrrrrgggggggggoobooooooyyyyyyyyywwwwwwwww'}   
+                            
+        result = check._check(parm)
+        self.assertIn('status', result)
+        status = result.get('status', None)
+        self.assertEqual(status, 'error: xxx')

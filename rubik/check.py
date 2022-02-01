@@ -89,20 +89,37 @@ def _check(parms):
         #Ready to check the color contradictory
         #Check edges color contradictory
         for element in edge_color:
+            if result:
+                break
             for x in range(0, 6, 2):
+                if result:
+                    break
                 front = mid_color[x]
                 back = mid_color[x+1]
+                #same color
+                if (element[0] == element[1]):
+                    result['status'] = 'error: xxx' 
+                #contradictory color
                 if (front in element) and (back in element):
                     result['status'] = 'error: xxx' 
-                    break
+                    
         #Check corners color contradictory
         for element in corner_color:
+            if result:
+                break
             for x in range(0, 6, 2):
+                if result:
+                    break
                 front = mid_color[x]
                 back = mid_color[x+1]
+                #same color
+                if (element[0] == element[1]) or (element[0] == element[2]) or (element[1] == element[2]):
+                    result['status'] = 'error: xxx'  
+                #contradictory color
                 if (front in element) and (back in element):
                     result['status'] = 'error: xxx' 
-                    break
+                
+                
     #The cube string fits all conditions
     if not result:
         result['status'] = 'ok'
